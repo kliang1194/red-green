@@ -108,6 +108,7 @@ button {
   text-shadow: 0 3px 10px rgba(0,0,0,.25);
 }
 
+#remove-score,
 #reset-score,
 #finish {
   padding: 14px 25px;
@@ -246,6 +247,12 @@ Your Score
 </div>
 
 
+<button id="remove-score" onclick="removeLastScore()">
+Remove Last Score
+</button>
+
+<br><br>
+
 <button id="reset-score" onclick="resetScore()">
 Reset Score
 </button>
@@ -348,6 +355,8 @@ Play Again
 
 let score = Number(localStorage.getItem("flagCourtScore")) || 0;
 
+let lastScore = Number(localStorage.getItem("flagCourtLastScore")) || 0;
+
 
 updateScores();
 
@@ -375,7 +384,10 @@ function addPoints(points){
 
   score += points;
 
+  lastScore = points;
+
   localStorage.setItem("flagCourtScore", score);
+  localStorage.setItem("flagCourtLastScore", lastScore);
 
   updateScores();
 
@@ -383,6 +395,27 @@ function addPoints(points){
   setTimeout(()=>{
     changeChoice();
   },500);
+
+}
+
+function removeLastScore(){
+
+  if(lastScore > 0){
+
+    score -= lastScore;
+
+    if(score < 0){
+      score = 0;
+    }
+
+    localStorage.setItem("flagCourtScore", score);
+
+    lastScore = 0;
+    localStorage.setItem("flagCourtLastScore", 0);
+
+    updateScores();
+
+  }
 
 }
 
@@ -414,8 +447,10 @@ function changeChoice(){
 function resetScore(){
 
   score = 0;
+  lastScore = 0;
 
   localStorage.setItem("flagCourtScore", 0);
+  localStorage.setItem("flagCourtLastScore", 0);
 
   updateScores();
 
@@ -438,13 +473,14 @@ function finishGame(){
 function restartGame(){
 
   score = 0;
+  lastScore = 0;
 
   localStorage.removeItem("flagCourtScore");
+  localStorage.removeItem("flagCourtLastScore");
 
   updateScores();
 
   document.getElementById("final-screen").style.display="none";
-
   document.getElementById("app").style.display="flex";
 
 }
