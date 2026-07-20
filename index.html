@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Sounds Gay I'm In 🌈</title>
+<title>🌈 Sounds Gay I'm In | ⚖️ Flag Court</title>
 
 <style>
 html, body {
@@ -36,7 +36,16 @@ h1 {
 h2 {
   color: white;
   font-size: clamp(1rem, 4vw, 1.2rem);
+  line-height: 1.5;
   margin: 0 20px 35px;
+  text-shadow: 0 3px 10px rgba(0,0,0,.25);
+}
+
+.game-title {
+  display: inline-block;
+  margin-top: 20px;
+  font-size: 1.4em;
+  font-weight: 900;
 }
 
 .buttons {
@@ -100,8 +109,14 @@ button {
 <body>
 
 <div id="app">
+
   <h1>🌈 Sounds Gay I'm In 🌈</h1>
-  <h2>Saturday, July 25th, 2026</h2>
+
+  <h2>
+    Saturday, July 25th, 2026
+    <br>
+    <span class="game-title">⚖️ Flag Court ⚖️</span>
+  </h2>
 
   <div class="buttons" id="buttons">
 
@@ -114,13 +129,16 @@ button {
     </button>
 
   </div>
+
 </div>
+
 
 <div id="choice"></div>
 
 <button id="reset" onclick="resetChoice()">
   Reset
 </button>
+
 
 <script>
 
