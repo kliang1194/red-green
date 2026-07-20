@@ -24,6 +24,8 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -37,7 +39,7 @@ h2 {
   color: white;
   font-size: clamp(1rem, 4vw, 1.2rem);
   line-height: 1.5;
-  margin: 0 20px 35px;
+  margin: 0 20px 25px;
   text-shadow: 0 3px 10px rgba(0,0,0,.25);
 }
 
@@ -48,6 +50,14 @@ h2 {
   font-weight: 900;
 }
 
+.instruction {
+  display: inline-block;
+  margin-top: 10px;
+  font-size: .9em;
+  font-weight: 600;
+  font-style: italic;
+}
+
 .buttons {
   display: flex;
   gap: 20px;
@@ -56,15 +66,18 @@ h2 {
 }
 
 button {
-  flex: 1;
-  aspect-ratio: 1;
   border: none;
   border-radius: 30px;
   font-size: clamp(1rem, 5vw, 1.5rem);
   font-weight: 800;
   color: white;
-  box-shadow: 0 10px 25px rgba(0,0,0,.25);
   cursor: pointer;
+  box-shadow: 0 10px 25px rgba(0,0,0,.25);
+}
+
+.flag-button {
+  flex: 1;
+  aspect-ratio: 1;
 }
 
 .red {
@@ -88,21 +101,84 @@ button {
   text-shadow: 0 5px 15px rgba(0,0,0,.3);
 }
 
-#reset {
-  display: none;
-  position: fixed;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
+#reset,
+#finish,
+#restart {
   padding: 15px 30px;
   border-radius: 999px;
   background: white;
   color: #333;
   font-size: 1rem;
   font-weight: 700;
-  aspect-ratio: auto;
-  box-shadow: 0 5px 15px rgba(0,0,0,.2);
 }
+
+#reset {
+  display: none;
+  position: fixed;
+  bottom: 30px;
+}
+
+#scoreboard {
+  margin-top: 25px;
+  color: white;
+}
+
+.score-title {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+#score {
+  font-size: 3rem;
+  font-weight: 900;
+}
+
+.score-buttons {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+.score-buttons button {
+  padding: 12px 14px;
+  border-radius: 999px;
+  background: white;
+  color: #333;
+  font-size: .85rem;
+}
+
+#reset-score {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: white;
+  color: #333;
+  font-size: .85rem;
+}
+
+#final-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcB77, #4d96ff, #c77dff);
+  color: white;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 20px;
+}
+
+#final-screen h1 {
+  margin-bottom: 20px;
+}
+
+.final-score {
+  font-size: 5rem;
+  font-weight: 900;
+}
+
 </style>
 </head>
 
@@ -116,16 +192,42 @@ button {
     Saturday, July 25th, 2026
     <br>
     <span class="game-title">⚖️ Flag Court ⚖️</span>
+    <br>
+    <span class="instruction">Choose your verdict</span>
   </h2>
 
   <div class="buttons" id="buttons">
 
-    <button class="red" onclick="choose('#d90429','🚩 RED FLAG')">
+    <button class="flag-button red" onclick="choose('#d90429','🚩 RED FLAG')">
       🚩<br>RED FLAG
     </button>
 
-    <button class="green" onclick="choose('#00b050','💚 GREEN FLAG')">
+    <button class="flag-button green" onclick="choose('#00b050','💚 GREEN FLAG')">
       💚<br>GREEN FLAG
+    </button>
+
+  </div>
+
+
+  <div id="scoreboard">
+
+    <div class="score-title">Your Score</div>
+    <div id="score">0</div>
+
+    <div class="score-buttons">
+      <button onclick="addPoints(3)">🏆 +3</button>
+      <button onclick="addPoints(2)">⚖️ +2</button>
+      <button onclick="addPoints(1)">🚩 +1</button>
+    </div>
+
+    <button id="reset-score" onclick="resetScore()">
+      Reset Score
+    </button>
+
+    <br>
+
+    <button id="finish" onclick="finishGame()">
+      Finish Game
     </button>
 
   </div>
@@ -140,13 +242,37 @@ button {
 </button>
 
 
+<div id="final-screen">
+
+  <h1>⚖️ Court Adjourned ⚖️</h1>
+
+  <div class="final-score" id="final-score">
+    0
+  </div>
+
+  <h2>
+    Final Score
+    <br>
+    🌈 Thanks for playing Flag Court
+  </h2>
+
+  <button id="restart" onclick="restartGame()">
+    Play Again
+  </button>
+
+</div>
+
+
 <script>
+
+let score = 0;
 
 function choose(color, text) {
 
   document.body.style.background = color;
 
   document.getElementById("buttons").style.display = "none";
+  document.getElementById("scoreboard").style.display = "none";
   document.querySelector("h1").style.display = "none";
   document.querySelector("h2").style.display = "none";
 
@@ -160,9 +286,6 @@ function choose(color, text) {
     navigator.vibrate(100);
   }
 
-  if (document.documentElement.requestFullscreen) {
-    document.documentElement.requestFullscreen().catch(() => {});
-  }
 }
 
 
@@ -172,6 +295,7 @@ function resetChoice() {
     "linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcB77, #4d96ff, #c77dff)";
 
   document.getElementById("buttons").style.display = "flex";
+  document.getElementById("scoreboard").style.display = "block";
   document.querySelector("h1").style.display = "block";
   document.querySelector("h2").style.display = "block";
 
@@ -179,6 +303,50 @@ function resetChoice() {
   document.getElementById("reset").style.display = "none";
 
 }
+
+
+function addPoints(points) {
+
+  score += points;
+  document.getElementById("score").innerHTML = score;
+
+  if (navigator.vibrate) {
+    navigator.vibrate(50);
+  }
+
+}
+
+
+function resetScore() {
+
+  score = 0;
+  document.getElementById("score").innerHTML = 0;
+
+}
+
+
+function finishGame() {
+
+  document.getElementById("final-score").innerHTML = score;
+
+  document.getElementById("final-screen").style.display = "flex";
+
+}
+
+
+function restartGame() {
+
+  score = 0;
+
+  document.getElementById("score").innerHTML = 0;
+
+  document.getElementById("final-screen").style.display = "none";
+
+  document.getElementById("buttons").style.display = "flex";
+  document.getElementById("scoreboard").style.display = "block";
+
+}
+
 
 </script>
 
