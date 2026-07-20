@@ -90,16 +90,21 @@ button {
 
 #scoreboard {
   color: white;
-  margin-top: 25px;
+  margin-top: 30px;
 }
 
 .score-title {
-  font-weight: 700;
+  font-size: 1.5rem;
+  font-weight: 900;
+  text-shadow: 0 3px 10px rgba(0,0,0,.25);
 }
 
 #score {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 900;
+  line-height: 1;
+  margin: 8px 0 25px;
+  text-shadow: 0 3px 10px rgba(0,0,0,.25);
 }
 
 #reset-score,
@@ -153,7 +158,6 @@ button {
   font-size: 0.9rem;
 }
 
-
 #change-choice {
   margin-top: 25px;
   padding: 14px 25px;
@@ -183,8 +187,8 @@ button {
 }
 
 </style>
-</head>
 
+  </head>
 
 <body>
 
@@ -245,6 +249,7 @@ Finish Game
 
 
 
+
 <div id="choice-screen">
 
 
@@ -293,6 +298,7 @@ Change Choice
 
 
 
+
 <div id="final-screen">
 
 <h1>
@@ -322,8 +328,8 @@ Play Again
 
 
 
-<script>
 
+<script>
 
 let score = Number(localStorage.getItem("flagCourtScore")) || 0;
 
@@ -334,33 +340,34 @@ updateScores();
 
 function chooseFlag(color,text){
 
-document.getElementById("app").style.display="none";
+  document.getElementById("app").style.display="none";
 
-let screen=document.getElementById("choice-screen");
+  let screen = document.getElementById("choice-screen");
 
-screen.style.display="flex";
-screen.style.background=color;
+  screen.style.display="flex";
+  screen.style.background=color;
 
-document.getElementById("choice-text").innerHTML=text;
+  document.getElementById("choice-text").innerHTML=text;
 
-updateScores();
+  updateScores();
 
 }
 
 
 
+
 function addPoints(points){
 
-score += points;
+  score += points;
 
-localStorage.setItem("flagCourtScore", score);
+  localStorage.setItem("flagCourtScore", score);
 
-updateScores();
+  updateScores();
 
 
-setTimeout(()=>{
-changeChoice();
-},500);
+  setTimeout(()=>{
+    changeChoice();
+  },500);
 
 }
 
@@ -369,9 +376,9 @@ changeChoice();
 
 function updateScores(){
 
-document.getElementById("score").innerHTML=score;
+  document.getElementById("score").innerHTML = score;
 
-document.getElementById("choice-score-number").innerHTML=score;
+  document.getElementById("choice-score-number").innerHTML = score;
 
 }
 
@@ -380,9 +387,9 @@ document.getElementById("choice-score-number").innerHTML=score;
 
 function changeChoice(){
 
-document.getElementById("choice-screen").style.display="none";
+  document.getElementById("choice-screen").style.display="none";
 
-document.getElementById("app").style.display="flex";
+  document.getElementById("app").style.display="flex";
 
 }
 
@@ -391,11 +398,11 @@ document.getElementById("app").style.display="flex";
 
 function resetScore(){
 
-score=0;
+  score = 0;
 
-localStorage.setItem("flagCourtScore",0);
+  localStorage.setItem("flagCourtScore", 0);
 
-updateScores();
+  updateScores();
 
 }
 
@@ -404,9 +411,9 @@ updateScores();
 
 function finishGame(){
 
-document.getElementById("final-score").innerHTML=score;
+  document.getElementById("final-score").innerHTML = score;
 
-document.getElementById("final-screen").style.display="flex";
+  document.getElementById("final-screen").style.display="flex";
 
 }
 
@@ -415,15 +422,15 @@ document.getElementById("final-screen").style.display="flex";
 
 function restartGame(){
 
-score=0;
+  score = 0;
 
-localStorage.removeItem("flagCourtScore");
+  localStorage.removeItem("flagCourtScore");
 
-updateScores();
+  updateScores();
 
-document.getElementById("final-screen").style.display="none";
+  document.getElementById("final-screen").style.display="none";
 
-document.getElementById("app").style.display="flex";
+  document.getElementById("app").style.display="flex";
 
 }
 
