@@ -25,7 +25,6 @@ body {
   justify-content: center;
   text-align: center;
   padding: 20px;
-  box-sizing: border-box;
 }
 
 h1 {
@@ -39,23 +38,17 @@ h2 {
   color: white;
   font-size: clamp(1rem, 4vw, 1.2rem);
   line-height: 1.5;
-  margin: 0 20px 25px;
-  text-shadow: 0 3px 10px rgba(0,0,0,.25);
+  margin-bottom: 25px;
 }
 
 .game-title {
-  display: inline-block;
-  margin-top: 20px;
   font-size: 1.4em;
   font-weight: 900;
 }
 
 .instruction {
-  display: inline-block;
-  margin-top: 10px;
-  font-size: .9em;
-  font-weight: 600;
   font-style: italic;
+  font-weight: 600;
 }
 
 .buttons {
@@ -68,9 +61,7 @@ h2 {
 button {
   border: none;
   border-radius: 30px;
-  font-size: clamp(1rem, 5vw, 1.5rem);
   font-weight: 800;
-  color: white;
   cursor: pointer;
   box-shadow: 0 10px 25px rgba(0,0,0,.25);
 }
@@ -78,6 +69,8 @@ button {
 .flag-button {
   flex: 1;
   aspect-ratio: 1;
+  font-size: clamp(1rem, 5vw, 1.5rem);
+  color: white;
 }
 
 .red {
@@ -88,43 +81,12 @@ button {
   background: #00b050;
 }
 
-#choice {
-  display: none;
-  position: fixed;
-  inset: 0;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  font-size: clamp(3rem, 12vw, 5rem);
-  color: white;
-  font-weight: 900;
-  text-shadow: 0 5px 15px rgba(0,0,0,.3);
-}
-
-#reset,
-#finish,
-#restart {
-  padding: 15px 30px;
-  border-radius: 999px;
-  background: white;
-  color: #333;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-#reset {
-  display: none;
-  position: fixed;
-  bottom: 30px;
-}
-
 #scoreboard {
-  margin-top: 25px;
   color: white;
+  margin-top: 25px;
 }
 
 .score-title {
-  font-size: 1rem;
   font-weight: 700;
 }
 
@@ -137,24 +99,42 @@ button {
   display: flex;
   gap: 8px;
   justify-content: center;
-  margin-top: 10px;
 }
 
-.score-buttons button {
-  padding: 12px 14px;
+.score-buttons button,
+#reset-score,
+#finish,
+#change-choice {
+  padding: 12px 18px;
   border-radius: 999px;
   background: white;
   color: #333;
-  font-size: .85rem;
 }
 
-#reset-score {
-  margin-top: 10px;
-  padding: 10px 20px;
-  border-radius: 999px;
-  background: white;
-  color: #333;
-  font-size: .85rem;
+#choice-screen {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: white;
+  font-size: clamp(3rem, 12vw, 5rem);
+  font-weight: 900;
+  text-align: center;
+}
+
+#choice-score {
+  font-size: 1.5rem;
+  margin-top: 30px;
+}
+
+#choice-scoring {
+  margin-top: 20px;
+}
+
+#change-choice {
+  margin-top: 25px;
 }
 
 #final-screen {
@@ -167,11 +147,6 @@ button {
   justify-content: center;
   flex-direction: column;
   text-align: center;
-  padding: 20px;
-}
-
-#final-screen h1 {
-  margin-bottom: 20px;
 }
 
 .final-score {
@@ -186,79 +161,89 @@ button {
 
 <div id="app">
 
-  <h1>🌈 Sounds Gay I'm In 🌈</h1>
+<h1>🌈 Sounds Gay I'm In 🌈</h1>
 
-  <h2>
-    Saturday, July 25th, 2026
-    <br>
-    <span class="game-title">⚖️ Flag Court ⚖️</span>
-    <br>
-    <span class="instruction">Choose your verdict</span>
-  </h2>
+<h2>
+Saturday, July 25th, 2026
+<br>
+<span class="game-title">⚖️ Flag Court ⚖️</span>
+<br>
+<span class="instruction">Choose your verdict</span>
+</h2>
 
-  <div class="buttons" id="buttons">
+<div class="buttons">
 
-    <button class="flag-button red" onclick="choose('#d90429','🚩 RED FLAG')">
-      🚩<br>RED FLAG
-    </button>
+<button class="flag-button red" onclick="chooseFlag('#d90429','🚩 RED FLAG')">
+🚩<br>RED FLAG
+</button>
 
-    <button class="flag-button green" onclick="choose('#00b050','💚 GREEN FLAG')">
-      💚<br>GREEN FLAG
-    </button>
-
-  </div>
-
-
-  <div id="scoreboard">
-
-    <div class="score-title">Your Score</div>
-    <div id="score">0</div>
-
-    <div class="score-buttons">
-      <button onclick="addPoints(3)">🏆 +3</button>
-      <button onclick="addPoints(2)">⚖️ +2</button>
-      <button onclick="addPoints(1)">🚩 +1</button>
-    </div>
-
-    <button id="reset-score" onclick="resetScore()">
-      Reset Score
-    </button>
-
-    <br>
-
-    <button id="finish" onclick="finishGame()">
-      Finish Game
-    </button>
-
-  </div>
+<button class="flag-button green" onclick="chooseFlag('#00b050','💚 GREEN FLAG')">
+💚<br>GREEN FLAG
+</button>
 
 </div>
 
 
-<div id="choice"></div>
+<div id="scoreboard">
 
-<button id="reset" onclick="resetChoice()">
-  Reset
+<div class="score-title">Your Score</div>
+<div id="score">0</div>
+
+<button id="reset-score" onclick="resetScore()">
+Reset Score
 </button>
+
+<br><br>
+
+<button id="finish" onclick="finishGame()">
+Finish Game
+</button>
+
+</div>
+
+</div>
+
+
+<div id="choice-screen">
+
+<div id="choice-text"></div>
+
+<div id="choice-score">
+Your Score: <span id="choice-score-number">0</span>
+</div>
+
+<div id="choice-scoring">
+
+<button onclick="addPoints(3)">🏆 +3</button>
+<button onclick="addPoints(2)">⚖️ +2</button>
+<button onclick="addPoints(1)">🚩 +1</button>
+
+</div>
+
+<button id="change-choice" onclick="changeChoice()">
+Change Choice
+</button>
+
+</div>
 
 
 <div id="final-screen">
 
-  <h1>⚖️ Court Adjourned ⚖️</h1>
+<h1>⚖️ Court Adjourned ⚖️</h1>
 
-  <div class="final-score" id="final-score">
-    0
-  </div>
+<div class="final-score" id="final-score">
+0
+</div>
 
-  <h2>
-    Final Score
-    <br>
-    🌈 Thanks for playing Flag Court
-  </h2>
+<h2>
+Final Score
+<br>
+🌈 Thanks for playing Flag Court
+</h2>
 
-  <button id="restart" onclick="restartGame()">
-    Play Again
-  </button>
+<button onclick="restartGame()">
+Play Again
+</button>
 
 </div>
 
@@ -267,86 +252,78 @@ button {
 
 let score = 0;
 
-function choose(color, text) {
 
-  document.body.style.background = color;
+function chooseFlag(color,text){
 
-  document.getElementById("buttons").style.display = "none";
-  document.getElementById("scoreboard").style.display = "none";
-  document.querySelector("h1").style.display = "none";
-  document.querySelector("h2").style.display = "none";
+document.getElementById("app").style.display="none";
 
-  const choice = document.getElementById("choice");
-  choice.innerHTML = text;
-  choice.style.display = "flex";
+let screen=document.getElementById("choice-screen");
 
-  document.getElementById("reset").style.display = "block";
+screen.style.display="flex";
+screen.style.background=color;
 
-  if (navigator.vibrate) {
-    navigator.vibrate(100);
-  }
+document.getElementById("choice-text").innerHTML=text;
+
+updateScores();
 
 }
 
 
-function resetChoice() {
+function addPoints(points){
 
-  document.body.style.background =
-    "linear-gradient(135deg, #ff6b6b, #ffd93d, #6bcB77, #4d96ff, #c77dff)";
+score += points;
 
-  document.getElementById("buttons").style.display = "flex";
-  document.getElementById("scoreboard").style.display = "block";
-  document.querySelector("h1").style.display = "block";
-  document.querySelector("h2").style.display = "block";
+updateScores();
 
-  document.getElementById("choice").style.display = "none";
-  document.getElementById("reset").style.display = "none";
+setTimeout(()=>{
+changeChoice();
+},500);
 
 }
 
 
-function addPoints(points) {
+function updateScores(){
 
-  score += points;
-  document.getElementById("score").innerHTML = score;
-
-  if (navigator.vibrate) {
-    navigator.vibrate(50);
-  }
+document.getElementById("score").innerHTML=score;
+document.getElementById("choice-score-number").innerHTML=score;
 
 }
 
 
-function resetScore() {
+function changeChoice(){
 
-  score = 0;
-  document.getElementById("score").innerHTML = 0;
-
-}
-
-
-function finishGame() {
-
-  document.getElementById("final-score").innerHTML = score;
-
-  document.getElementById("final-screen").style.display = "flex";
+document.getElementById("choice-screen").style.display="none";
+document.getElementById("app").style.display="flex";
 
 }
 
 
-function restartGame() {
+function resetScore(){
 
-  score = 0;
-
-  document.getElementById("score").innerHTML = 0;
-
-  document.getElementById("final-screen").style.display = "none";
-
-  document.getElementById("buttons").style.display = "flex";
-  document.getElementById("scoreboard").style.display = "block";
+score=0;
+updateScores();
 
 }
 
+
+function finishGame(){
+
+document.getElementById("final-score").innerHTML=score;
+
+document.getElementById("final-screen").style.display="flex";
+
+}
+
+
+function restartGame(){
+
+score=0;
+updateScores();
+
+document.getElementById("final-screen").style.display="none";
+document.getElementById("app").style.display="flex";
+
+}
 
 </script>
 
