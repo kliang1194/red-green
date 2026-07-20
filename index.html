@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Red or Green</title>
+
+<style>
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: system-ui, sans-serif;
+    background: #111;
+    touch-action: manipulation;
+}
+
+#screen {
+    position: fixed;
+    inset: 0;
+    background: #111;
+    transition: background-color .15s;
+}
+
+#controls {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+}
+
+button {
+    flex: 1;
+    max-width: 220px;
+    aspect-ratio: 1;
+    border: none;
+    border-radius: 24px;
+    font-size: 2rem;
+    font-weight: bold;
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(0,0,0,.25);
+}
+
+#red {
+    background: #e53935;
+}
+
+#green {
+    background: #43a047;
+}
+
+#reset {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 14px 24px;
+    border-radius: 999px;
+    background: rgba(255,255,255,.9);
+    color: #111;
+    font-size: 1rem;
+    display: none;
+}
+
+.hidden {
+    display: none !important;
+}
+</style>
+</head>
+
+<body>
+
+<div id="screen">
+    <div id="controls">
+        <button id="red">🟥<br>RED</button>
+        <button id="green">🟩<br>GREEN</button>
+    </div>
+
+    <button id="reset">Change Choice</button>
+</div>
+
+<script>
+const screen = document.getElementById("screen");
+const controls = document.getElementById("controls");
+const reset = document.getElementById("reset");
+
+function choose(color){
+    screen.style.background = color;
+    controls.classList.add("hidden");
+    reset.style.display = "block";
+
+    // Attempt fullscreen (works in many mobile browsers after a tap)
+    if (document.documentElement.requestFullscreen) {
+        document.documentElement.requestFullscreen().catch(()=>{});
+    }
+}
+
+document.getElementById("red").onclick = () => choose("#d50000");
+document.getElementById("green").onclick = () => choose("#00c853");
+
+reset.onclick = () => {
+    screen.style.background = "#111";
+    controls.classList.remove("hidden");
+    reset.style.display = "none";
+};
+</script>
+
+</body>
+</html>
