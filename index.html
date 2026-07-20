@@ -123,28 +123,30 @@ button {
 /* FLAG RESULT SCREEN */
 
 #choice-screen {
-  z-index: 10;
   display: none;
   position: fixed;
   inset: 0;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   flex-direction: column;
   color: white;
   font-size: clamp(3rem, 12vw, 5rem);
   font-weight: 900;
   text-align: center;
+  padding: 60px 20px 30px;
+  box-sizing: border-box;
 }
 
 #choice-score {
   font-size: 1.5rem;
-  margin-top: 30px;
+  margin-top: auto;
+  margin-bottom: 20px;
 }
 
 #choice-scoring {
   display: flex;
   gap: 12px;
-  margin-top: 25px;
+  margin-bottom: 20px;
 }
 
 #choice-scoring button {
@@ -163,12 +165,11 @@ button {
 }
 
 #change-choice {
-  margin-top: 25px;
   padding: 14px 25px;
   border-radius: 999px;
   background: white;
   color: #333;
-  font-size: 1rem;
+  margin-bottom: 10px;
 }
 
 
