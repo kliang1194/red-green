@@ -32,22 +32,22 @@ body {
 
 h1 {
   color: white;
-  font-size: clamp(1.4rem, 6vw, 2.8rem);
-  margin: 0 5px 10px;
+  font-size: clamp(1.8rem, 7vw, 3rem);
+  margin: 0 5px 15px;
   white-space: nowrap;
   text-shadow: 0 3px 10px rgba(0,0,0,.25);
 }
 
 h2 {
   color: white;
-  font-size: clamp(1rem, 4vw, 1.2rem);
+  font-size: clamp(1.3rem, 5vw, 1.8rem);
   line-height: 1.5;
   margin-bottom: 25px;
   text-shadow: 0 3px 10px rgba(0,0,0,.25);
 }
 
 .game-title {
-  font-size: 1.4em;
+  font-size: 1.6em;
   font-weight: 900;
 }
 
@@ -61,6 +61,13 @@ h2 {
   gap: 20px;
   width: 90%;
   max-width: 500px;
+}
+
+.flag-button {
+  flex: 1;
+  aspect-ratio: 1;
+  font-size: clamp(1rem, 5vw, 1.5rem);
+  color: white;
 }
 
 button {
@@ -111,12 +118,14 @@ button {
 #remove-score,
 #reset-score,
 #finish,
-#play-again {
+#change-choice,
+#final-screen button {
   padding: 14px 25px;
   border-radius: 999px;
   background: white;
   color: #333;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-weight: 800;
 }
 
 
@@ -223,22 +232,6 @@ Saturday, July 25th, 2026
 <span class="instruction">Choose your verdict</span>
 </h2>
 
-
-<div class="buttons">
-
-<button class="flag-button red" onclick="chooseFlag('#d90429','🚩 RED FLAG')">
-🚩<br>RED FLAG
-</button>
-
-
-<button class="flag-button green" onclick="chooseFlag('#00b050','💚 GREEN FLAG')">
-💚<br>GREEN FLAG
-</button>
-
-</div>
-
-
-
 <div id="scoreboard">
 
 <div class="score-title">
@@ -268,7 +261,18 @@ Finish Game
 
 </div>
 
+<div class="buttons">
 
+<button class="flag-button red" onclick="chooseFlag('#d90429','🚩 RED FLAG')">
+🚩<br>RED FLAG
+</button>
+
+
+<button class="flag-button green" onclick="chooseFlag('#00b050','💚 GREEN FLAG')">
+💚<br>GREEN FLAG
+</button>
+
+</div>
 </div>
 
 
