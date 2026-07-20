@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
 <title>🌈 Sounds Gay I'm In | ⚖️ Flag Court</title>
 
 <style>
+
 html, body {
   margin: 0;
   height: 100%;
@@ -25,6 +27,7 @@ body {
   justify-content: center;
   text-align: center;
   padding: 20px;
+  box-sizing: border-box;
 }
 
 h1 {
@@ -39,6 +42,7 @@ h2 {
   font-size: clamp(1rem, 4vw, 1.2rem);
   line-height: 1.5;
   margin-bottom: 25px;
+  text-shadow: 0 3px 10px rgba(0,0,0,.25);
 }
 
 .game-title {
@@ -81,6 +85,9 @@ button {
   background: #00b050;
 }
 
+
+/* SCORE */
+
 #scoreboard {
   color: white;
   margin-top: 25px;
@@ -95,21 +102,17 @@ button {
   font-weight: 900;
 }
 
-.score-buttons {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-}
-
-.score-buttons button,
 #reset-score,
-#finish,
-#change-choice {
-  padding: 12px 18px;
+#finish {
+  padding: 14px 25px;
   border-radius: 999px;
   background: white;
   color: #333;
+  font-size: 1rem;
 }
+
+
+/* FLAG RESULT SCREEN */
 
 #choice-screen {
   display: none;
@@ -130,12 +133,37 @@ button {
 }
 
 #choice-scoring {
-  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  margin-top: 25px;
 }
+
+#choice-scoring button {
+  width: 105px;
+  height: 105px;
+  border-radius: 25px;
+  background: white;
+  color: #333;
+  font-size: 0.85rem;
+  font-weight: 900;
+  line-height: 1.2;
+}
+
+#choice-scoring span {
+  font-size: 0.9rem;
+}
+
 
 #change-choice {
   margin-top: 25px;
+  padding: 14px 25px;
+  border-radius: 999px;
+  background: white;
+  color: #333;
 }
+
+
+/* FINAL SCREEN */
 
 #final-screen {
   display: none;
@@ -157,7 +185,9 @@ button {
 </style>
 </head>
 
+
 <body>
+
 
 <div id="app">
 
@@ -165,17 +195,19 @@ button {
 
 <h2>
 Saturday, July 25th, 2026
-<br>
+<br><br>
 <span class="game-title">⚖️ Flag Court ⚖️</span>
 <br>
 <span class="instruction">Choose your verdict</span>
 </h2>
+
 
 <div class="buttons">
 
 <button class="flag-button red" onclick="chooseFlag('#d90429','🚩 RED FLAG')">
 🚩<br>RED FLAG
 </button>
+
 
 <button class="flag-button green" onclick="chooseFlag('#00b050','💚 GREEN FLAG')">
 💚<br>GREEN FLAG
@@ -184,10 +216,17 @@ Saturday, July 25th, 2026
 </div>
 
 
+
 <div id="scoreboard">
 
-<div class="score-title">Your Score</div>
-<div id="score">0</div>
+<div class="score-title">
+Your Score
+</div>
+
+<div id="score">
+0
+</div>
+
 
 <button id="reset-score" onclick="resetScore()">
 Reset Score
@@ -201,39 +240,70 @@ Finish Game
 
 </div>
 
+
 </div>
+
 
 
 <div id="choice-screen">
 
+
 <div id="choice-text"></div>
+
 
 <div id="choice-score">
 Your Score: <span id="choice-score-number">0</span>
 </div>
 
+
 <div id="choice-scoring">
 
-<button onclick="addPoints(3)">🏆 +3</button>
-<button onclick="addPoints(2)">⚖️ +2</button>
-<button onclick="addPoints(1)">🚩 +1</button>
+
+<button onclick="addPoints(3)">
+🏆<br>
+Majority<br>
+<span>+3 pts</span>
+</button>
+
+
+<button onclick="addPoints(2)">
+⚖️<br>
+Approved<br>
+<span>+2 pts</span>
+</button>
+
+
+<button onclick="addPoints(1)">
+🚩<br>
+Minority<br>
+<span>+1 pt</span>
+</button>
+
 
 </div>
+
 
 <button id="change-choice" onclick="changeChoice()">
 Change Choice
 </button>
 
+
 </div>
+
+
 
 
 <div id="final-screen">
 
-<h1>⚖️ Court Adjourned ⚖️</h1>
+<h1>
+⚖️ Court Adjourned ⚖️
+</h1>
+
 
 <div class="final-score" id="final-score">
 0
 </div>
+
 
 <h2>
 Final Score
@@ -241,16 +311,25 @@ Final Score
 🌈 Thanks for playing Flag Court
 </h2>
 
+
 <button onclick="restartGame()">
 Play Again
 </button>
 
+
 </div>
+
+
 
 
 <script>
 
-let score = 0;
+
+let score = Number(localStorage.getItem("flagCourtScore")) || 0;
+
+
+updateScores();
+
 
 
 function chooseFlag(color,text){
@@ -269,11 +348,15 @@ updateScores();
 }
 
 
+
 function addPoints(points){
 
 score += points;
 
+localStorage.setItem("flagCourtScore", score);
+
 updateScores();
+
 
 setTimeout(()=>{
 changeChoice();
@@ -282,28 +365,41 @@ changeChoice();
 }
 
 
+
+
 function updateScores(){
 
 document.getElementById("score").innerHTML=score;
+
 document.getElementById("choice-score-number").innerHTML=score;
 
 }
 
 
+
+
 function changeChoice(){
 
 document.getElementById("choice-screen").style.display="none";
+
 document.getElementById("app").style.display="flex";
 
 }
 
 
+
+
 function resetScore(){
 
 score=0;
+
+localStorage.setItem("flagCourtScore",0);
+
 updateScores();
 
 }
+
+
 
 
 function finishGame(){
@@ -315,17 +411,25 @@ document.getElementById("final-screen").style.display="flex";
 }
 
 
+
+
 function restartGame(){
 
 score=0;
+
+localStorage.removeItem("flagCourtScore");
+
 updateScores();
 
 document.getElementById("final-screen").style.display="none";
+
 document.getElementById("app").style.display="flex";
 
 }
 
+
 </script>
+
 
 </body>
 </html>
