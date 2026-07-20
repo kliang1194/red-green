@@ -16,16 +16,7 @@ html, body {
 }
 
 body {
-  position: relative;
   background: url("background.jpg") center center / cover no-repeat fixed;
-}
-
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.22);
-  pointer-events: none;
 }
 
 #app {
@@ -187,13 +178,6 @@ button {
   margin-bottom: 10px;
 }
 
-#app,
-#final-screen,
-#choice-screen {
-  position: relative;
-  z-index: 1;
-}
-  
 
 /* FINAL SCREEN */
 
