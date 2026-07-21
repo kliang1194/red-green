@@ -42,7 +42,7 @@ body {
 
 h1 {
   color: white;
-  font-size: var(--font-title);
+  font-size: clamp(2rem, 7vw, 3rem);
   font-weight: 900;
   margin: 0 5px 15px;
   white-space: nowrap;
@@ -87,6 +87,7 @@ h2 {
   height: 70px;
   color: white;
   border-radius: 999px;
+  font-size: var(--font-button);
 }
   
 button {
@@ -119,12 +120,23 @@ button {
   text-shadow: 0 3px 10px rgba(0,0,0,.25);
 }
 
-#score,
+#score {
+  font-size: var(--font-score);
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 15px;
+  text-shadow: 0 3px 10px rgba(0,0,0,.25);
+}
+
 .final-score {
   font-size: var(--font-score);
   font-weight: 900;
   line-height: 1;
   text-shadow: 0 3px 10px rgba(0,0,0,.25);
+}
+
+#remove-score {
+  margin-bottom: 15px;
 }
 
 #remove-score,
@@ -136,7 +148,7 @@ button {
   border-radius: 999px;
   background: white;
   color: #333;
-  font-size: 1rem;
+  font-size: var(--font-button);
   font-weight: 800;
 }
 
